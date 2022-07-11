@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+
+    <title>
+        {{ liga.nazwa }}
+    </title>
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'league/styl.css' %}">
+</head>
+<body>
+<div id="main">
+
+    <header>
+        {{ liga.nazwa }}
+        <hr style="border: 0px; background: white; height: 1px; margin-top:5px;">
+    </header>
+
+    {% block content %}
+    {% if user.is_authenticated %}
+    <section id="login">
+        Hi {{ user.username }}!<br>
+        <a href="{% url 'logout' %}">Wyloguj się</a>
+    </section>
+    {% else %}
+    <section id="logout">
+        <a href="{% url 'login' %}">Zaloguj się</a><br>
+    </section>
+    <section id="signup">
+        <a href="{% url 'signup' %}">Stwórz konto</a>
+    </section>
+    {% endif %}
+    {% endblock %}
+    <section id="text">
+        <table style="width: 400px; margin-left: auto; margin-right: auto; border: 1px solid black;">
+            {% for i in klub %}
+            {% if i.liga == liga %}
+            <tr>
+                <td><a href="/league/liga/{{ i.id }}/">{{i.nazwa}}</a></td>
+                <td><input type="button" value="Edytuj" onClick="location.href='/league/liga/{{ i.id }}/edytuj/';" /></td>
+                <td><input type="button" value="Usun" onClick="location.href='/league/liga/{{ i.id }}/usun/';" /></td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+            <tr>
+                <td></td>
+            </tr>
+            <tr>
+                <td><a href="/league/liga/mecze">Wyniki</a></td>
+            </tr>
+        </table>
+        <input type="button" value="Dodaj Klub" onClick="location.href='/league/liga/klub/dodaj/';" />
+    </section>
+    <footer>
+        <p style="text-align: right">
+            <button onclick="history.go(-1)">Wróć</button>
+        </p>
+    </footer>
+
+</div>
+</body>
+</html>

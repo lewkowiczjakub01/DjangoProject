@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+
+    <title>
+        Usun Piłkarza
+    </title>
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'league/styl.css' %}">
+</head>
+<body>
+<div id="main">
+
+    <header>
+        Usun Piłkarza
+        <hr style="border: 0px; background: white; height: 1px; margin-top:5px;">
+    </header>
+
+    {% block content %}
+    {% if user.is_authenticated %}
+    <section id="login">
+        Hi {{ user.username }}!<br>
+        <a href="{% url 'logout' %}">Wyloguj się</a>
+    </section>
+    {% else %}
+    <section id="logout">
+        <a href="{% url 'login' %}">Zaloguj się</a><br>
+    </section>
+    <section id="signup">
+        <a href="{% url 'signup' %}">Stwórz konto</a>
+    </section>
+    {% endif %}
+    {% endblock %}
+    <section id="text">
+    <form method="POST">
+        {% csrf_token %}
+        Czy napewno chcesz usunąć tego piłkarza ?
+        <input type="submit" value="Tak" />
+        <a href="/league/">Nie </a>
+    </form>
+    </section>
+    <footer>a<br>a<br>a<br></footer>
+</div>
+</body>
+</html>

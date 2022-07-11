@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+
+    <title>
+        {{ pilkarz.imie }} {{ pilkarz.nazwisko }}
+    </title>
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'league/styl.css' %}">
+</head>
+<body>
+<div id="main">
+
+    <header>
+        {{ pilkarz.imie }} {{ pilkarz.nazwisko }}
+        <hr style="border: 0px; background: white; height: 1px; margin-top:5px;">
+    </header>
+
+    {% block content %}
+    {% if user.is_authenticated %}
+    <section id="login">
+        Hi {{ user.username }}!<br>
+        <a href="{% url 'logout' %}">Wyloguj się</a>
+    </section>
+    {% else %}
+    <section id="logout">
+        <a href="{% url 'login' %}">Zaloguj się</a><br>
+    </section>
+    <section id="signup">
+        <a href="{% url 'signup' %}">Stwórz konto</a>
+    </section>
+    {% endif %}
+    {% endblock %}
+    <section id="text">
+        <li>Imie: <b>{{pilkarz.imie}}</b></li>
+        <li>Nazwisko: <b>{{pilkarz.nazwisko}}</b></li>
+        <li>Data urodzenia: <b>{{pilkarz.data_urodzenia}}</b></li>
+        <li>Poprzedni klub: <b>{{pilkarz.poprzedni_klub}}</b></li>
+        <li>Numer koszulki: <b>{{pilkarz.numer_koszulki}}</b></li>
+        <li>klub: <b>{{pilkarz.klub}}</b></li>
+        <br>
+        <input type="button" value="Edytuj dane" onClick="location.href='/league/liga/pilkarz/{{pilkarz_id}}/edytuj';" />
+    </section>
+    <footer>
+        <p style="text-align: right">
+            <button onclick="history.go(-1)">Wróć</button>
+        </p>
+    </footer>
+</div>
+</body>
+</html>

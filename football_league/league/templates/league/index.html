@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Ligi piłkarskie</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'league/styl.css' %}">
+</head>
+<body>
+<div id="main">
+    <header>
+        Ligi Piłkarskie
+        <hr style="border: 0px; background: white; height: 1px; margin-top:5px;">
+    </header>
+    {% block content %}
+    {% if user.is_authenticated %}
+    <section id="login">
+        Hi {{ user.username }}!<br>
+        <a href="{% url 'logout' %}">Wyloguj się</a>
+    </section>
+    {% else %}
+    <section id="logout">
+        <a href="{% url 'login' %}">Zaloguj się</a><br>
+    </section>
+    <section id="signup">
+        <a href="{% url 'signup' %}">Stwórz konto</a>
+    </section>
+    {% endif %}
+    {% endblock %}
+    <section id="text"> Witaj na stronie dla fanów piłki nożnej ! <br>
+        Wybierz ligę która, Cię interesuje
+        <table style="width: 600px; margin-left: auto; margin-right: auto; border: 1px solid black;">
+            <tr>
+                <td>Nazwa</td>
+                <td>Prezes</td>
+                <td>Ilość klubów</td>
+            </tr>
+            {% for i in liga %}
+            <tr>
+                <td><a href="/league/{{ i.id }}/">{{i.nazwa}}</a></td>
+                <td>{{i.prezes}}</td>
+                <td>{{i.ilosc_klubow}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </section>
+    <footer>a<br>a<br>a<br></footer>
+
+
+</div>
+</body>
+</html>

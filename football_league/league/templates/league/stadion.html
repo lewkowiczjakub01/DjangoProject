@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+
+    <title>
+        {{stadion.nazwa}}
+    </title>
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'league/styl.css' %}">
+</head>
+<body>
+<div id="main">
+
+    <header>
+        {{stadion.nazwa}}
+        <hr style="border: 0px; background: white; height: 1px; margin-top:5px;">
+    </header>
+
+    {% block content %}
+    {% if user.is_authenticated %}
+    <section id="login">
+        Hi {{ user.username }}!<br>
+        <a href="{% url 'logout' %}">Wyloguj się</a>
+    </section>
+    {% else %}
+    <section id="logout">
+        <a href="{% url 'login' %}">Zaloguj się</a><br>
+    </section>
+    <section id="signup">
+        <a href="{% url 'signup' %}">Stwórz konto</a>
+    </section>
+    {% endif %}
+    {% endblock %}
+    <section id="text">
+        <li>Nazwa: <b>{{stadion.nazwa}}</b></li>
+        <li>Ilość miejsc: <b>{{stadion.ilosc_miejsc}}</b></li>
+        <li>Adres: <b>{{stadion.adres}}</b></li>
+        <li>Klub: <b>{{stadion.klub}}</b></li>
+    </section>
+    <footer>
+        <p style="text-align: right">
+            <button onclick="history.go(-1)">Wróć</button>
+        </p>
+    </footer>
+</div>
+</body>
+</html>

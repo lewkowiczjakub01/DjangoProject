@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+
+    <title>
+        {{ klub.nazwa }}
+    </title>
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'league/styl.css' %}">
+</head>
+<body>
+<div id="main">
+
+    <header>
+        {{ klub.nazwa }}
+        <hr style="border: 0px; background: white; height: 1px; margin-top:5px;">
+    </header>
+
+    {% block content %}
+    {% if user.is_authenticated %}
+    <section id="login">
+        Hi {{ user.username }}!<br>
+        <a href="{% url 'logout' %}">Wyloguj się</a>
+    </section>
+    {% else %}
+    <section id="logout">
+        <a href="{% url 'login' %}">Zaloguj się</a><br>
+    </section>
+    <section id="signup">
+        <a href="{% url 'signup' %}">Stwórz konto</a>
+    </section>
+    {% endif %}
+    {% endblock %}
+    <section id="klub">
+        <table style="width: 450px; margin-left: 20px; border: 1px solid black;">
+            <tr>
+                <td>Nazwa</td>
+                <td><b>{{klub.nazwa}}</b></td>
+            </tr>
+            <tr>
+                <td>Założyciel</td>
+                <td><b>{{klub.zalozyciel}}</b></td>
+            </tr>
+            <tr>
+                <td>Prezes</td>
+                <td><b>{{klub.prezes}}</b></td>
+            </tr>
+            <tr>
+                <td>Data_założenia</td>
+                <td><b>{{klub.data_zalozenia}}</b></td>
+            </tr>
+            <tr>
+                <td>Stadion</td>
+                <td><b>
+                    {% for i in stadion %}
+                    {% if i.klub == klub %}
+                    <a href="/league/liga/stadion/{{ i.id }}/">{{i.nazwa}}</a>
+                    {% endif %}
+                    {% endfor %}
+                </b></td>
+            </tr>
+            <tr>
+                <td>Trener</td>
+                <td><b>
+                    {% for i in trener %}
+                    {% if i.klub == klub %}
+                    <a href="/league/liga/trener/{{ i.id }}/">{{i.imie}} {{i.nazwisko}}</a>
+                    {% endif %}
+                    {% endfor %}
+                </b></td>
+            </tr>
+        </table>
+    </section>
+    <section id="pilkarz">
+        <table style="width: 450px; margin-left: 20px; border: 1px solid black;">
+            <tr>
+                <td>Piłkarze klubu:</td>
+                <td><input type="button" value="Dodaj piłkarza" onClick="location.href='/league/liga/pilkarz/dodaj/';" /></td>
+            </tr>
+
+        {% for i in pilkarz %}
+        {% if i.klub == klub %}
+            <tr>
+                <td><a href="/league/liga/pilkarz/{{ i.id }}/">{{i.imie}} {{i.nazwisko}}</a></td>
+                <td><input type="button" value="Usuń piłkarza" onClick="location.href='/league/liga/pilkarz/{{ i.id }}/usun';" /></td>
+            </tr>
+        {% endif %}
+        {% endfor %}
+        </table>
+
+    </section>
+    <footer>
+        <p style="text-align: right">
+            <button onclick="history.go(-1)">Wróć</button>
+        </p>
+    </footer>
+</div>
+</body>
+</html>
